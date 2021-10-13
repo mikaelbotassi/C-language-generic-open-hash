@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-hashAberto* expandeHash(hashAberto *hash);
+hashAberto* expandeHash(hashAberto *hash, int(* pegaChave)(void *, char));
 
 void inicializaHashAberto (hashAberto *hash, int tamanhoInicial, float fatorCarga){	
 	hash->quant = 0;
@@ -31,7 +31,7 @@ hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pe
 
 	//verifico se é necessário expandir
 	if (( (float)hash->quant/(float)hash->tamanho) > hash->fatorCarga){
-		hash=expandeHash(hash);
+		hash=expandeHash(hash, pegaChave);
 	}
 	int code = hashCode(pegaChave(a, chave), hash->tamanho);//PEga a chave com a função na biblioteca aluno
 	//Achar primeira posiço não ocupada a partir do codigo calculado (note a circularidade)
@@ -43,7 +43,7 @@ hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pe
     return hash;
 }
 
-hashAberto* expandeHash(hashAberto *hash){
+hashAberto* expandeHash(hashAberto *hash, int(* pegaChave)(void *, char)){
 	int i;
 	//Aloco uma nova hash com o dobro do tamanho da orginal
 	hashAberto *novaHash;
@@ -53,7 +53,7 @@ hashAberto* expandeHash(hashAberto *hash){
 	//Transfiro os elementos da hash antiga para a nova
 	for (i =0; i< hash->tamanho; i++){
 		if (hash->tabela[i].situacao==1){
-			insereAluno(hash->tabela[i].valor,novaHash);
+			inserirNaHashAberta(hash->tabela[i].tipo, novaHash, hash->tabela[i].valor, pegaChave);
 		}
 	}
 	

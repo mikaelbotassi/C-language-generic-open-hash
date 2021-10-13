@@ -12,29 +12,12 @@ eu coloquei o cast somente para aluno.
 */
 
 int main(){
-    hashAberto *hash = (hashAberto *) malloc (sizeof(hashAberto));;
-	int op;
-	aluno *a;
-	inicializaHashAberto(hash,TAM_INICIAL, FATOR);
-	do{
-		op = menu();
-		switch (op){
-			case 1:
-				
-				a = (aluno *) malloc (sizeof (aluno));
-				printf("\n Digite a Matricula e o Nome do aluno: \n");
-				scanf("%d", &a->matricula);
-				fflush(stdin);
-				gets(a->nome);
-				hash=insereAluno(*a,hash);
-			break;
-			
-			case 2:
-				imprimeAllHash(hash);
-			break;
-		}
-		
-	}while (op!=0);
+    hashAberto *h1 = (hashAberto *) malloc (sizeof(hashAberto));
+	hashAberto *h2 = (hashAberto *) malloc (sizeof(hashAberto));
+	inicializaHashAberto(h1,TAM_INICIAL, FATOR);
+	inicializaHashAberto(h2,TAM_INICIAL, FATOR);
+
+	start(h1, h2);
 
     return 0;
 }
