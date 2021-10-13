@@ -48,7 +48,7 @@ void newAluno(hashAberto * h1, hashAberto *h2){//Caso o usuário queira inserir 
 }
 
 void insertAluno(hashAberto *h, aluno * a){
-    inserirNaHashFechada('A', h, a, returnChave, cmp);
+    inserirNaHashAberta('A', h, a, returnChave);
 }
 
 int descobreTipo(char id){
@@ -128,12 +128,22 @@ void printAluno(char id, void *elem){
     }
 }
 
+void printIndice(elemento *elem, int indice){
+    if(descobreTipo(elem->tipo)){
+        aluno *p = elem->valor;
+        printf("\n Indice = %d - Matricula = %d - Nome = %s\n", indice, p->matricula, p->nome);
+    }
+    else{//Caso a variavel não seja do tipo aluno
+        printf("\nDigite mais sentenças! ");
+    }
+}
+
 void printAllHash(hashAberto *h){
     if(h->tamanho==0){
         printf("Hash vazia!\n");
     }
     else{
-        imprimirHashFechada(h, printAluno);
+        imprimirHashFechada(h, printIndice);
     }
 }
 

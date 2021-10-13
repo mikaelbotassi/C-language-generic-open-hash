@@ -12,16 +12,28 @@ typedef struct Aluno{
     int nota;
 }aluno;
 
-/*void start(hashFechada *h1, hashFechada *h2);
+void start(hashAberto *h1,hashAberto *h2);
+
 aluno * allocAluno();
-void newAluno(hashFechada * h1, hashFechada *h2);
-void insertAluno(hashFechada * h, aluno *a);
+
+void newAluno(hashAberto * h1, hashAberto *h2);
+
+void insertAluno(hashAberto *h, aluno * a);
+
 int descobreTipo(char id);
-int cmp(char id, node * n1, node *n2);
-void alunoSearch(hashFechada *h1, hashFechada *h2);
+
+int cmp(char id, elemento * n1, elemento *n2);
+
+void alunoSearch(hashAberto *h1, hashAberto *h2);
+
 int matriculaCompare(int matricula, void * elem, char id);
+
 void printAluno(char id, void *elem);
-void printAllHash(hashFechada *h);
-int returnChave(void * elem, char id);*/
+
+void printIndice(elemento *elem, int indice);
+
+void printAllHash(hashAberto *h);
+
+int returnChave(void * elem, char id);
 
 #endif

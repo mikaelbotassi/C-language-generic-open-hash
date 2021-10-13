@@ -1,6 +1,9 @@
 #include "aluno.h"
 #include "controleArquivo.h"
 
+#define TAM_INICIAL 10
+#define FATOR 0.7
+
 /*
 AVISO: A estrutura está encapsulada, somente a biblioteca de aluno tem acesso a bibloteca de Hash Fechada,
 somente a bibloteca de Hash tem acesso a bibloteca de lista.
@@ -9,16 +12,16 @@ eu coloquei o cast somente para aluno.
 */
 
 int main(){
-    hashAberto *hash = (THashAberto *) malloc (sizeof(THashAberto));;
+    hashAberto *hash = (hashAberto *) malloc (sizeof(hashAberto));;
 	int op;
-	TAluno *a;
+	aluno *a;
 	inicializaHashAberto(hash,TAM_INICIAL, FATOR);
 	do{
 		op = menu();
 		switch (op){
 			case 1:
 				
-				a = (TAluno *) malloc (sizeof (TAluno));
+				a = (aluno *) malloc (sizeof (aluno));
 				printf("\n Digite a Matricula e o Nome do aluno: \n");
 				scanf("%d", &a->matricula);
 				fflush(stdin);
@@ -27,7 +30,7 @@ int main(){
 			break;
 			
 			case 2:
-				imprimeHash(hash);
+				imprimeAllHash(hash);
 			break;
 		}
 		

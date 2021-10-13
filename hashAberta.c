@@ -6,12 +6,8 @@
 //
 
 #include "hashAberta.h"
-
-
 #include <stdio.h>
 #include <stdlib.h>
-#define TAM_INICIAL 10
-#define FATOR 0.7
 
 hashAberto* expandeHash(hashAberto *hash);
 
@@ -31,18 +27,20 @@ int hashCode(int matricula, int tam){
 	return matricula % tam;
 }
 
-hashAberto* push(void * a, hashAberto *hash){
-	//verifico se ? necess?rio expandir
+hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pegaChave)(void *, char)){
+
+	//verifico se é necessário expandir
 	if (( (float)hash->quant/(float)hash->tamanho) > hash->fatorCarga){
 		hash=expandeHash(hash);
 	}
-	int code = hashCode(a.matricula, hash->tamanho);
-	//Achar primeira posi??o n?o ocupada a partir do codigo calculado (note a circularidade)
+	int code = hashCode(pegaChave(a, chave), hash->tamanho);//PEga a chave com a função na biblioteca aluno
+	//Achar primeira posiço não ocupada a partir do codigo calculado (note a circularidade)
 	while (hash->tabela[code].situacao == 1)
 		code = (code + 1)%hash->tamanho;
 	hash->tabela[code].valor=a;
 	hash->tabela[code].situacao = 1;
 	hash->quant++;
+    return hash;
 }
 
 hashAberto* expandeHash(hashAberto *hash){
@@ -65,11 +63,11 @@ hashAberto* expandeHash(hashAberto *hash){
 	return novaHash;
 }
 
-void imprimeHash(hashAberto *hash){
+void imprimeHash(hashAberto *hash, void (* print)(elemento *, int)){
 	int i;
 	for (i =0; i< hash->tamanho; i++){
 		if (hash->tabela[i].situacao==1){
-			printf("\n Indice = %d - Matricula = %d - Nome = %s\n",i,hash->tabela[i].valor.matricula,hash->tabela[i].valor.nome);
+			print(&(hash->tabela[i]), i);
 		}
 	}
 }
