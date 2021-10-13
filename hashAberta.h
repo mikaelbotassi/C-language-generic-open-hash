@@ -8,7 +8,7 @@
 typedef struct Elemento{
 	void * valor;
 	int situacao; //0 - nunca utilizado, 1 - ocupado, -1 excluido
-    int tipo; //Necessário para fazer o cast, já que é uma estrutura genérica
+    char tipo; //Necessário para fazer o cast, já que é uma estrutura genérica
 }elemento;
 
 typedef struct HashAberto{

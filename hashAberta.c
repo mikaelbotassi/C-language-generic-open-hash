@@ -9,7 +9,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void inicializaElemento(elemento *e);
+
 hashAberto* expandeHash(hashAberto *hash, int(* pegaChave)(void *, char));
+
+void inicializaElemento(elemento * e){
+    e->situacao=0;
+    e->tipo = '\0';
+    e->valor = NULL;
+}
 
 void inicializaHashAberto (hashAberto *hash, int tamanhoInicial, float fatorCarga){	
 	hash->quant = 0;
@@ -19,7 +27,7 @@ void inicializaHashAberto (hashAberto *hash, int tamanhoInicial, float fatorCarg
 	
 	int i;
 	for (i =0; i< tamanhoInicial; i++){
-		hash->tabela[i].situacao=0;
+        inicializaElemento(&(hash->tabela[i]));
 	}
 }
 
@@ -39,6 +47,7 @@ hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pe
 		code = (code + 1)%hash->tamanho;
 	hash->tabela[code].valor=a;
 	hash->tabela[code].situacao = 1;
+    hash->tabela[code].tipo=chave;
 	hash->quant++;
     return hash;
 }

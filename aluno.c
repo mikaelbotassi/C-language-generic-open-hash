@@ -14,12 +14,12 @@ void start(hashAberto *h1,hashAberto *h2){
         printf("\nDigite o numero correspondente a funcao que deseja utilizar: ");
         scanf(" %d", &res);
         
-        if(res==1){
+        /*if(res==1){
             exibeEstatisticas(h1, h2);
         }
         if(res==2){
             alunoSearch(h1, h2);
-        }
+        }*/
 
         if(res==3){
             newAluno(h1, h2);
@@ -90,13 +90,13 @@ que se quer inserir, o novo nó é o node *n1 e o no atual que se compara o valo
     }
 }
 
-void alunoSearch(hashAberto *h1, hashAberto *h2){//Procura o aluno pela matricula
+/*void alunoSearch(hashAberto *h1, hashAberto *h2){//Procura o aluno pela matricula
     int age;
     printf("\nQual a matricula da pessoa que voce quer procurar? ");
     scanf("%d", &age);
     pesquisaNaHash(h1, age, matriculaCompare, printAluno);
     pesquisaNaHash(h2, age, matriculaCompare, printAluno);
-}
+}*/
 
 int matriculaCompare(int matricula, void * elem, char id){//função de comparar pra ver se as matriculas são iguais
     if(descobreTipo(id)){
@@ -134,7 +134,7 @@ void printIndice(elemento *elem, int indice){
         printf("\n Indice = %d - Matricula = %d - Nome = %s\n", indice, p->matricula, p->nome);
     }
     else{//Caso a variavel não seja do tipo aluno
-        printf("\nDigite mais sentenças! ");
+        printf("\nDigite mais sentencas! ");
     }
 }
 
@@ -143,7 +143,7 @@ void printAllHash(hashAberto *h){
         printf("Hash vazia!\n");
     }
     else{
-        imprimirHashFechada(h, printIndice);
+        imprimeHash(h, printIndice);
     }
 }
 

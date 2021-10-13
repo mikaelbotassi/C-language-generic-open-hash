@@ -1,7 +1,5 @@
 #include "aluno.h"
 #include "controleArquivo.h"
-
-#define TAM_INICIAL 10
 #define FATOR 0.7
 
 /*
@@ -14,10 +12,12 @@ eu coloquei o cast somente para aluno.
 int main(){
     hashAberto *h1 = (hashAberto *) malloc (sizeof(hashAberto));
 	hashAberto *h2 = (hashAberto *) malloc (sizeof(hashAberto));
-	inicializaHashAberto(h1,TAM_INICIAL, FATOR);
-	inicializaHashAberto(h2,TAM_INICIAL, FATOR);
-
+	inicializaHashAberto(h1,997, FATOR);
+	inicializaHashAberto(h2,1000, FATOR);
+	readHashAlunoFromFile(h1, h2);
 	start(h1, h2);
+	//writeHashOnFile(h1);
+    //writeHashOnFile(h2);
 
     return 0;
 }

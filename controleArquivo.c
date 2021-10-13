@@ -16,7 +16,7 @@
 
 aluno * readNextAluno(FILE *fp);
 
-void writeAlunosOnFile(FILE *fp, hashFechada *hash);
+void writeAlunosOnFile(FILE *fp, hashAberto *hash);
 
 // =-=-=-=-= METODOS PRIVADOS | IMPLEMENTAÇÃO =-=-=-=-=
 
@@ -40,25 +40,21 @@ aluno * readNextAluno(FILE *fp) {
     return aluno;
 }
 
-void writeAlunosOnFile(FILE *fp, hashFechada *hash) {
-    list *lista;
-    node *no;
+void writeAlunosOnFile(FILE *fp, hashAberto *hash) {
     aluno * a;
+    elemento *e;
     for (int index = 0; index < hash->tamanho; ++index) {
-        lista = &(hash->dados[index]);
-        no = lista->first;
-
-        while (no != NULL) {
-            a = no->elemen;
+        if (hash->tabela[index].situacao==1){
+            e = &(hash->tabela[index]);
+            a = e->valor;
             fprintf(fp, "%d;%d;%s;%d\n", index, a->matricula, a->nome, a->nota);
-            no = no->prox;
         }
     }
 }
 
 // =-=-=-=-= METODOS PUBLICOS =-=-=-=-=
 
-void readHashAlunoFromFile(hashFechada *hash1, hashFechada *hash2) {
+void readHashAlunoFromFile(hashAberto *hash1, hashAberto *hash2) {
     FILE *fp = fopen(DIRETORIO_ARQUIVO_ENTRADA, "r");
     int contador = 0;
     int registros;
@@ -76,11 +72,10 @@ void readHashAlunoFromFile(hashFechada *hash1, hashFechada *hash2) {
         insertAluno(hash2, a);
         contador++;
     }
-
     fclose(fp);
 }
 
-void writeHashOnFile(hashFechada *hash) {
+void writeHashOnFile(hashAberto *hash) {
     int nomeArquivoSaidaLength = strlen(DIRETORIO_ARQUIVO_SAIDA) + FILE_NAME_MAX_LENGTH + 1;
     char *nomeArquivoSaida = (char *) malloc(nomeArquivoSaidaLength * sizeof(char));
     FILE *fp;
