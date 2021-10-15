@@ -10,14 +10,13 @@ eu coloquei o cast somente para aluno.
 */
 
 int main(){
-    hashAberto *h1 = (hashAberto *) malloc (sizeof(hashAberto));
-	hashAberto *h2 = (hashAberto *) malloc (sizeof(hashAberto));
-	inicializaHashAberto(h1,997, FATOR);
-	inicializaHashAberto(h2,1000, FATOR);
-	readHashAlunoFromFile(h1, h2);
-	start(h1, h2);
-	//writeHashOnFile(h1);
-    //writeHashOnFile(h2);
+    hashAberto *h = (hashAberto *) malloc (sizeof(hashAberto));
+	inicializaHashAberto(h,100000, FATOR);
+	printf("\nTAMANHO HASH: %d", h->tamanho);
+	readHashAlunoFromFile(h);
+	printf("\nTAMANHO HASH: %d", h->tamanho);
+	start(h);
+	writeHashOnFile(h);
 
     return 0;
 }

@@ -12,11 +12,11 @@ typedef struct Aluno{
     int nota;
 }aluno;
 
-void start(hashAberto *h1,hashAberto *h2);
+void start(hashAberto *h1);
 
 aluno * allocAluno();
 
-void newAluno(hashAberto * h1, hashAberto *h2);
+void newAluno(hashAberto * h1);
 
 void insertAluno(hashAberto *h, aluno * a);
 
@@ -28,7 +28,7 @@ void alunoSearch(hashAberto *h1, hashAberto *h2);
 
 int matriculaCompare(int matricula, void * elem, char id);
 
-void printAluno(char id, void *elem);
+//void printAluno(char id, void *elem);
 
 void printIndice(elemento *elem, int indice);
 

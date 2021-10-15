@@ -25,6 +25,7 @@ aluno * readNextAluno(FILE *fp) {
     char *line = (char *) malloc((LINE_MAX_LENGTH + 1) * sizeof(char));
     char *ptr;
 
+    
     fscanf(fp, " %[^\n]%*c", line);
     ptr = strtok(line, DELIMITER);
     aluno->matricula = (int) atof(ptr);
@@ -54,7 +55,7 @@ void writeAlunosOnFile(FILE *fp, hashAberto *hash) {
 
 // =-=-=-=-= METODOS PUBLICOS =-=-=-=-=
 
-void readHashAlunoFromFile(hashAberto *hash1, hashAberto *hash2) {
+void readHashAlunoFromFile(hashAberto *hash1) {
     FILE *fp = fopen(DIRETORIO_ARQUIVO_ENTRADA, "r");
     int contador = 0;
     int registros;
@@ -69,7 +70,6 @@ void readHashAlunoFromFile(hashAberto *hash1, hashAberto *hash2) {
     while (!feof(fp) && contador < registros) {
         aluno * a = readNextAluno(fp);
         insertAluno(hash1, a);
-        insertAluno(hash2, a);
         contador++;
     }
     fclose(fp);

@@ -3,7 +3,7 @@
 /*
 Função de menu, esta função chama as outras funções dependendo da resposta do usuário.
 */
-void start(hashAberto *h1,hashAberto *h2){
+void start(hashAberto *h1){
     int res=5;
     while(res !=4){
         printf("\n 1 - EXIBIR ESTATISTICAS;");
@@ -22,7 +22,7 @@ void start(hashAberto *h1,hashAberto *h2){
         }*/
 
         if(res==3){
-            newAluno(h1, h2);
+            newAluno(h1);
         }
     }
 }
@@ -35,7 +35,7 @@ aluno * allocAluno(){
     return p;
 }
 
-void newAluno(hashAberto * h1, hashAberto *h2){//Caso o usuário queira inserir um aluno novo sem leitura de arquivos
+void newAluno(hashAberto * h1){//Caso o usuário queira inserir um aluno novo sem leitura de arquivos
     aluno * p = allocAluno();
     printf("\nDigite a matricula do aluno: ");
     scanf("%d", &p->matricula);
@@ -44,7 +44,6 @@ void newAluno(hashAberto * h1, hashAberto *h2){//Caso o usuário queira inserir 
     printf("Digite a nota do aluno: ");
     scanf("%d", &p->nota);
     insertAluno(h1, p);
-    insertAluno(h2, p);
 }
 
 void insertAluno(hashAberto *h, aluno * a){
@@ -114,7 +113,7 @@ int matriculaCompare(int matricula, void * elem, char id){//função de comparar
     }
 }
 
-void printAluno(char id, void *elem){
+/*void printAluno(char id, void *elem){
     if(descobreTipo(id)){
         aluno *p = elem;
         printf("\nMatricula: %d", p->matricula);
@@ -126,7 +125,7 @@ void printAluno(char id, void *elem){
     else{//Caso a variavel não seja do tipo aluno
         printf("\nDigite mais sentenças! ");
     }
-}
+}*/
 
 void printIndice(elemento *elem, int indice){
     if(descobreTipo(elem->tipo)){
