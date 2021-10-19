@@ -6,15 +6,12 @@
 //
 #include "aluno.h"
 #include "controleArquivo.h"
-#define FATOR 0.7
+#define FATOR 0.9
 
 int main() {
     hashAberto *h = (hashAberto *) malloc (sizeof(hashAberto));
 	inicializaHashAberto(h,100000, FATOR);
-	printf("\nTAMANHO HASH: %d", h->tamanho);
 	h=readHashAlunoFromFile(h);
-	printf("\nTAMANHO HASH: %d", h->tamanho);
-	start(h);
-	//printAllHash(h);
+	menu(h);
 	writeHashOnFile(h);
 }

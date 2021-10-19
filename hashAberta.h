@@ -30,6 +30,8 @@ hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pe
 
 void imprimeHash(hashAberto *hash, void (* print)(elemento *, int));
 
+elemento * pesquisaNaHash(hashAberto *h, int chave, int (* cmp)(int, elemento *));
+
 // #####################################################################
 
 #endif

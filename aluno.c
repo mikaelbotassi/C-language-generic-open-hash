@@ -3,7 +3,7 @@
 /*
 Função de menu, esta função chama as outras funções dependendo da resposta do usuário.
 */
-void start(hashAberto *h1){
+void menu(hashAberto *h){
     int res=5;
     while(res !=4){
         printf("\n 1 - EXIBIR ESTATISTICAS;");
@@ -16,13 +16,13 @@ void start(hashAberto *h1){
         
         /*if(res==1){
             exibeEstatisticas(h1, h2);
-        }
-        if(res==2){
-            alunoSearch(h1, h2);
         }*/
+        if(res==2){
+            alunoSearch(h);
+        }
 
         if(res==3){
-            newAluno(h1);
+            newAluno(h);
         }
     }
 }
@@ -55,7 +55,7 @@ int descobreTipo(char id){
 Esta função pega o tipo de dado passado pelo variavel, neste caso
 como quero trabalhar apenas com aluno, recdbo apenas o tipo 'A' ou 'a'
 */
-    if(id=='A' || id=='a'){
+    if(id =='A' || id =='a'){
         return 1;
     }
     else{
@@ -63,57 +63,33 @@ como quero trabalhar apenas com aluno, recdbo apenas o tipo 'A' ou 'a'
     }
 }
 
-int cmp(char id, elemento * n1, elemento *n2){
-/*
-Nesta função, chamada pela biblioteca de lista basicamente compara o nó atual com o novo nó
-que se quer inserir, o novo nó é o node *n1 e o no atual que se compara o valor é o n2.
-*/
-    if(descobreTipo(id)){
-        if(n2!=NULL){
-            aluno *p1=n1->valor;//faz o cash dos valores dos dois nós
-            aluno *p2=n2->valor;
-            if(p1->matricula>p2->matricula){//Se for maior anda pra frente na estrutura lista
-                return 1;
-            }
-            else{
-                return 0;//Se for menor retorna falso e para de andar a lista
-            }
-        }
-        else{
-            return 0;
-        }
+void alunoSearch(hashAberto *h){//Procura o aluno pela matricula
+    int chave;
+    printf("\nQual a matricula da pessoa que voce quer procurar? ");
+    scanf(" %d", &chave);
+    elemento *e = pesquisaNaHash(h, chave, matriculaCompare);
+    if(e!=NULL){
+        printAluno(e->tipo, e->valor);
     }
     else{
-        printf("Insira outras verificações dos tipos de varáveis possíveis! ");
-        return -1;
+        printf("\nALUNO NAO EXISTE!\n");
     }
 }
 
-/*void alunoSearch(hashAberto *h1, hashAberto *h2){//Procura o aluno pela matricula
-    int age;
-    printf("\nQual a matricula da pessoa que voce quer procurar? ");
-    scanf("%d", &age);
-    pesquisaNaHash(h1, age, matriculaCompare, printAluno);
-    pesquisaNaHash(h2, age, matriculaCompare, printAluno);
-}*/
-
-int matriculaCompare(int matricula, void * elem, char id){//função de comparar pra ver se as matriculas são iguais
-    if(descobreTipo(id)){
-        aluno *p=elem;
+int matriculaCompare(int matricula, elemento * elem){//função de comparar pra ver se as matriculas são iguais
+    if(descobreTipo(elem->tipo)){
+        aluno *p=elem->valor;
         if(p->matricula==matricula){
             return 1;
         }
-        else{
-            return 0;
-        }
+        return 0;    
     }
     else{
-        printf("\nDigite outras sentenças aqui!");
         return 0;
     }
 }
 
-/*void printAluno(char id, void *elem){
+void printAluno(char id, void *elem){
     if(descobreTipo(id)){
         aluno *p = elem;
         printf("\nMatricula: %d", p->matricula);
@@ -123,9 +99,9 @@ int matriculaCompare(int matricula, void * elem, char id){//função de comparar
 
     }
     else{//Caso a variavel não seja do tipo aluno
-        printf("\nDigite mais sentenças! ");
+        printf("\nNao e possivel printar! ");
     }
-}*/
+}
 
 void printIndice(elemento *elem, int indice){
     if(descobreTipo(elem->tipo)){
