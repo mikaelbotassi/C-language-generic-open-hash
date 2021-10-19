@@ -46,8 +46,8 @@ void newAluno(hashAberto * h1){//Caso o usuário queira inserir um aluno novo se
     insertAluno(h1, p);
 }
 
-void insertAluno(hashAberto *h, aluno * a){
-    inserirNaHashAberta('A', h, a, returnChave);
+hashAberto* insertAluno(hashAberto *h, aluno * a){
+    return inserirNaHashAberta('A', h, a, returnChave);
 }
 
 int descobreTipo(char id){

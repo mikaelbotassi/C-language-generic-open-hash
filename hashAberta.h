@@ -26,7 +26,7 @@ void inicializaHashAberto (hashAberto *hash, int tamanhoInicial, float fatorCarg
 
 int hashCode(int matricula, int tam);
 
-void inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pegaChave)(void *, char));
+hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pegaChave)(void *, char));
 
 void imprimeHash(hashAberto *hash, void (* print)(elemento *, int));
 

@@ -29,7 +29,7 @@ int hashCode(int matricula, int tam){
 	return matricula % tam;
 }
 
-void inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pegaChave)(void *, char)){
+hashAberto* inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pegaChave)(void *, char)){
 	//verifico se é necessário expandir
 	if (( (float)hash->quant/(float)hash->tamanho) > hash->fatorCarga){
 		printf("\nTAMANHO DA HASH AQUI: %d", hash->tamanho);
@@ -43,6 +43,7 @@ void inserirNaHashAberta(char chave, hashAberto *hash, void * a, int(* pegaChave
 	hash->tabela[code].situacao = 1;
     hash->tabela[code].tipo=chave;
 	hash->quant++;
+    return hash;
 }
 
 hashAberto* expandeHash(hashAberto *hash, int(* pegaChave)(void *, char)){

@@ -18,7 +18,7 @@ aluno * allocAluno();
 
 void newAluno(hashAberto * h1);
 
-void insertAluno(hashAberto *h, aluno * a);
+hashAberto* insertAluno(hashAberto *h, aluno * a);
 
 int descobreTipo(char id);
 
