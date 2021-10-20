@@ -8,9 +8,10 @@ void menu(hashAberto *h)
     int res = 5;
     while (res != 4)
     {
-        printf("\n 1 - EXIBIR ESTATISTICAS;");
+        printf("\n 0 - EXIBIR ESTATISTICAS;");
+        printf("\n 1 - INCLUIR ALUNO;");
         printf("\n 2 - EFETUAR BUSCA POR MATRICULA;");
-        printf("\n 3 - INCLUIR ALUNO;");
+        printf("\n 3 - EXCLUIR POR MATRICULA;");
         printf("\n 4 - SAIR");
 
         printf("\nDigite o numero correspondente a funcao que deseja utilizar: ");
@@ -19,14 +20,17 @@ void menu(hashAberto *h)
         /*if(res==1){
             exibeEstatisticas(h1, h2);
         }*/
+        if (res == 1)
+        {
+            newAluno(h);
+        }
         if (res == 2)
         {
             alunoSearch(h);
         }
-
         if (res == 3)
         {
-            newAluno(h);
+            excluiAluno(h);
         }
     }
 }
@@ -80,11 +84,11 @@ void alunoSearch(hashAberto *h)
     scanf(" %d", &chave);
     elemento *e = pesquisaNaHash(h, chave, matriculaCompare);
     if (e != NULL)
-    {
+    {//ACHOU O ELEMENTO
         printAluno(e->tipo, e->valor);
     }
     else
-    {
+    {//NÃO ACHOU
         printf("\nALUNO NAO EXISTE!\n");
     }
 }
@@ -103,6 +107,28 @@ int matriculaCompare(int matricula, elemento *elem)
     else
     {
         return 0;
+    }
+}
+
+void excluiAluno(hashAberto * h)
+{//Função que exclui um determinado aluno da Lista
+    int chave;
+    printf("\nQual a matricula da pessoa que voce quer procurar? ");
+    scanf(" %d", &chave);
+    elemento *e = pesquisaNaHash(h, chave, matriculaCompare);/*Chama a função de pesquisar na hash que
+retorna o elemento que deseja excluir    */
+    if (e != NULL)
+    {
+        printAluno(e->tipo, e->valor);
+        e->situacao=-1;//Situação de excluido
+        e->tipo='\0';//Como vai desalocar o elemento o tipo armazenado é void(\0)
+        free(e->valor);//Da um free no elemento que o ponteiro void aponta
+        e->valor=NULL;//Aponta o ponteiro void para NULL agora
+        printf("\n\n.......ALUNO EXCLUIDO!.........\n\n");
+    }
+    else
+    {
+        printf("\nALUNO NAO EXISTE!\n");
     }
 }
 

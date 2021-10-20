@@ -28,6 +28,8 @@ void alunoSearch(hashAberto *h);
 
 int matriculaCompare(int matricula, elemento * elem);
 
+void excluiAluno(hashAberto * h);
+
 void printAluno(char id, void *elem);
 
 void printIndice(elemento *elem, int indice);

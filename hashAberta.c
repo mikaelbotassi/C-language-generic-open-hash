@@ -122,3 +122,46 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 	}
 	return NULL;
 }
+
+
+/*elemento *excluiDaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
+{
+	int code = hashCode(chave, h->tamanho);
+
+	while (code != h->tamanho)
+	{
+		if (&(h->tabela[code]) == NULL)
+		{
+			return NULL;
+		}
+		else
+		{
+			if (h->tabela[code].situacao == 1)
+			{
+				if (cmp(chave, &(h->tabela[code])))
+				{
+					 h->tabela[code].situacao=-1;
+					 h->tabela[code].tipo='\0';
+					 free(h->tabela[code].valor);
+					 h->tabela[code].valor=NULL;
+				}
+				else
+				{
+					code++;
+				}
+			}
+			else
+			{
+				if (h->tabela[code].situacao == -1)
+				{
+					code++;
+				}
+				else
+				{
+					return NULL;
+				}
+			}
+		}
+	}
+	return NULL;
+}*/
