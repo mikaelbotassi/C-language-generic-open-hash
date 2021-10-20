@@ -32,6 +32,10 @@ void imprimeHash(hashAberto *hash, void (* print)(elemento *, int));
 
 elemento * pesquisaNaHash(hashAberto *h, int chave, int (* cmp)(int, elemento *));
 
+void todasEstatisticas(hashAberto *h);
+
+void totalElementos(hashAberto *h);
+
 // #####################################################################
 
 #endif

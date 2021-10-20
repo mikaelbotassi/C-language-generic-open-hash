@@ -100,6 +100,7 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 			{
 				if (cmp(chave, &(h->tabela[code])))
 				{
+					printf("\nIndice: %d", code);
 					return &(h->tabela[code]);
 				}
 				else
@@ -122,3 +123,72 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 	}
 	return NULL;
 }
+
+//###################### FUNÇÕES DE ESTATATÍSTICAS ##########################################
+
+void todasEstatisticas(hashAberto *h){//Printa as estatisticas
+    totalElementos(h);
+    /*printf("\nA media de elementos em cada indice eh: %.1f", mediaElementosIndice(h));
+    descobreIndiceMaiorMenor(h);
+    printf("\nO desvio padrao da hash eh: %.1f", calculaDesvioPadrao(h));
+    printf("\n A quantidade de indices no intervalo eh: %d", indicesNoIntervalo(h));*/
+}
+
+void totalElementos(hashAberto *h){//quantidade total de elementos
+    printf("\nO total de elementos da Hash eh: %d", h->quant);
+}
+
+/*float mediaElementosIndice(hashAberto * h){//quantidade média de elementos por índice
+    int i;
+    int totalNos=0;
+    float media;
+    for(i=0; i<h->tamanho; i++){
+        totalNos = totalNos + h->dados[i].tam;
+    }
+    media=(float)(totalNos/h->tamanho);
+    return media;
+}
+
+void descobreIndiceMaiorMenor(hashAberto * h){
+    int i;
+    int maior=0;
+    int menor = 0;
+    int elementosMaior = -1;
+    int elementosMenor = 99999999;
+    for(i=0; i<h->tamanho; i++){
+        if(h->dados[i].tam>elementosMaior){//índice com a maior quantidade de elementos
+            maior=i;
+            elementosMaior=h->dados[i].tam;//quantidade de elementos desse índice
+        }
+        if(h->dados[i].tam<elementosMenor){//índice com a menor quantidade de elementos
+            menor=i;
+            elementosMenor=h->dados[i].tam;//quantidade de elementos desse índice
+        }
+    }
+
+    printf("\nO indice com o maior numero de elementos eh: %d, e ele possui %d elementos", maior, elementosMaior);
+    printf("\nO indice com o menor numero de elementos eh: %d, e ele possui %d elementos", menor, elementosMenor);
+}
+
+float calculaDesvioPadrao(hashAberto *h){//desvio padrão da quantidade de elementos pelos índices
+    int i;
+    float media = mediaElementosIndice(h);
+    float soma = 0;
+    float desvioPadrao=0;
+    for(i=0; i<h->tamanho; i++){
+        soma=soma + pow((h->dados[i].tam - media), 2);
+    }
+    desvioPadrao=soma/h->tamanho;
+    return desvioPadrao;
+}
+
+int indicesNoIntervalo(hashAberto *h){//quantos índices tem quantidade dentro do intervalo da média +/- o desvio padrão.
+    int i;
+    int quantidadeIndicesIntervalo = 0;
+    for(i=0; i<h->tamanho; i++){
+        if(h->dados[i].tam >= (mediaElementosIndice(h) - calculaDesvioPadrao(h)) && h->dados[i].tam <= (mediaElementosIndice(h) - calculaDesvioPadrao(h))){
+            quantidadeIndicesIntervalo++;
+        }
+    }
+    return quantidadeIndicesIntervalo;
+}*/

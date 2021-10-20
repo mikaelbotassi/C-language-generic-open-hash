@@ -113,7 +113,7 @@ int matriculaCompare(int matricula, elemento *elem)
 void excluiAluno(hashAberto * h)
 {//Função que exclui um determinado aluno da Lista
     int chave;
-    printf("\nQual a matricula da pessoa que voce quer procurar? ");
+    printf("\nQual a matricula da pessoa que voce quer excluir? ");
     scanf(" %d", &chave);
     elemento *e = pesquisaNaHash(h, chave, matriculaCompare);/*Chama a função de pesquisar na hash que
 retorna o elemento que deseja excluir    */
