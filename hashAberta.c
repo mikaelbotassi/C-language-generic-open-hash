@@ -128,8 +128,8 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 
 void todasEstatisticas(hashAberto *h){//Printa as estatisticas
     totalElementos(h);
-    /*printf("\nA media de elementos em cada indice eh: %.1f", mediaElementosIndice(h));
-    descobreIndiceMaiorMenor(h);
+    printf("\nA media de elementos em cada indice eh: %.1f", pegaMediaElementosBloco(h));
+    /*descobreIndiceMaiorMenor(h);
     printf("\nO desvio padrao da hash eh: %.1f", calculaDesvioPadrao(h));
     printf("\n A quantidade de indices no intervalo eh: %d", indicesNoIntervalo(h));*/
 }
@@ -138,18 +138,32 @@ void totalElementos(hashAberto *h){//quantidade total de elementos
     printf("\nO total de elementos da Hash eh: %d", h->quant);
 }
 
-/*float mediaElementosIndice(hashAberto * h){//quantidade média de elementos por índice
-    int i;
-    int totalNos=0;
-    float media;
-    for(i=0; i<h->tamanho; i++){
-        totalNos = totalNos + h->dados[i].tam;
+float pegaMediaElementosBloco(hashAberto * h){//quantidade média de elementos por índice
+    int i;//Contador do primeiro for que percorre toda Hash
+    int totalNo=0;//guarda o total de nós que tem situação igual a 1(possui algum aluno) ou -1(Possuia aluno, porém foi retirado)
+	int blocos=0;//guarda a quantidade de blocos totais na hash
+    float media;//guarda a media de elementos por bloco
+    for(i = 0; i < h->tamanho; i++){
+		if(&(h->tabela[i]) == NULL){
+			break;
+		}
+		else{
+			if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
+				totalNo++;
+			}
+			else{//Se for uma posicão de situação 0, ou seja não tem blocos
+				blocos++;//Fecha o bloco anterior e soma mais um no número total de blocos
+				while(h->tabela[i].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
+					i++;
+				}
+			}
+		}
     }
-    media=(float)(totalNos/h->tamanho);
+    media= ((float)totalNo)/blocos;
     return media;
 }
 
-void descobreIndiceMaiorMenor(hashAberto * h){
+/*void descobreIndiceMaiorMenor(hashAberto * h){
     int i;
     int maior=0;
     int menor = 0;

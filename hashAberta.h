@@ -36,6 +36,8 @@ void todasEstatisticas(hashAberto *h);
 
 void totalElementos(hashAberto *h);
 
+float pegaMediaElementosBloco(hashAberto * h);
+
 // #####################################################################
 
 #endif

@@ -17,9 +17,9 @@ void menu(hashAberto *h)
         printf("\nDigite o numero correspondente a funcao que deseja utilizar: ");
         scanf(" %d", &res);
 
-        /*if(res==1){
-            exibeEstatisticas(h1, h2);
-        }*/
+        if(res==0){
+            todasEstatisticas(h);
+        }
         if (res == 1)
         {
             newAluno(h);
