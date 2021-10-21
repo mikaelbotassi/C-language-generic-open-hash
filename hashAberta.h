@@ -5,6 +5,13 @@
 
 
 // #################### ESTRUTURAS  #################################
+
+typedef struct Bloco{
+	int indiceInicial;
+	int indiceFinal;
+	int quant;
+}bloco;
+
 typedef struct Elemento{
 	void * valor;
 	int situacao; //0 - nunca utilizado, 1 - ocupado, -1 excluido
@@ -32,11 +39,15 @@ void imprimeHash(hashAberto *hash, void (* print)(elemento *, int));
 
 elemento * pesquisaNaHash(hashAberto *h, int chave, int (* cmp)(int, elemento *));
 
+bloco insereNoBloco(int quant, int inicio, int fim);
+
 void todasEstatisticas(hashAberto *h);
 
 void totalElementos(hashAberto *h);
 
 float pegaMediaElementosBloco(hashAberto * h);
+
+void descobreBlocoMaiorMenor(hashAberto * h);
 
 // #####################################################################
 
