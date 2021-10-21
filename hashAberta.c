@@ -126,7 +126,7 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 
 //###################### FUNÇÕES DE ESTATATÍSTICAS ##########################################
 
-bloco insereBloco(int quant, int inicio, int fim){
+bloco insereNoBloco(int quant, int inicio, int fim){
     bloco b;
     b.indiceInicial=inicio;
     b.indiceFinal=fim;
@@ -171,12 +171,12 @@ float pegaMediaElementosBloco(hashAberto * h){//quantidade média de elementos p
 }
 
 void descobreBlocoMaiorMenor(hashAberto * h){
-	bloco b = insereNoBloco(0,0,0);
+	bloco b;
 	bloco maior = insereNoBloco(-1, 0, 0);
     bloco menor = insereNoBloco(999999, 0, 0);
 
 	int i;//Contador do primeiro for que percorre toda Hash
-	int reseta=0;
+	int reseta=0;//Variável para resetar e iniciar um novo bloco
 	for(i = 0; i < h->tamanho; i++){
 		if(&(h->tabela[i]) == NULL){
 			break;
@@ -184,21 +184,25 @@ void descobreBlocoMaiorMenor(hashAberto * h){
 		else{
 			if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
 				if(reseta == 0){
+					b = insereNoBloco(0,0,0);//Se for igual a zero quer dizer que vai começar a contar o bloco novo agora, então reseta tudo
 					b.indiceInicial = i;
 					reseta = 1;
 				}
+
 				b.quant++;
+
 			}
 			else{//Se for uma posicão de situação 0, ou seja não tem blocos
-				b.indiceFinal=i;
-				if(b.quant > maior.quant){
-					maior = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);
+				reseta = 0;
+				b.indiceFinal=i-1;//Este indice final é só por curiosidade
+				if(b.quant > maior.quant){//Se a quantidade de elementos no bloco atual for maior que o bloco com maior número de elementos
+					maior = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);//Vai inserir os valores do bloco no bloco maior
 				}
-				if(b.quant < menor.quant){
+				if(b.quant < menor.quant){//Se for menor
 					menor = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);
 				}
-				while(h->tabela[i].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
-					i++;
+				while(h->tabela[i+1].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
+					i++;//Percorre o "i" até sair do 0;
 				}
 			}
 		}
