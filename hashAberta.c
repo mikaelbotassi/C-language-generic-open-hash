@@ -88,8 +88,7 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 {
 	int code = hashCode(chave, h->tamanho);
 
-	while (code != h->tamanho)
-	{
+	do{
 		if (&(h->tabela[code]) == NULL)
 		{
 			return NULL;
@@ -105,14 +104,14 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 				}
 				else
 				{
-					code++;
+					code = (code + 1) % h->tamanho;
 				}
 			}
 			else
 			{
 				if (h->tabela[code].situacao == -1)
 				{
-					code++;
+					code = (code + 1) % h->tamanho;
 				}
 				else
 				{
@@ -120,7 +119,7 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 				}
 			}
 		}
-	}
+	}while (code != code-1);
 	return NULL;
 }
 
@@ -175,13 +174,18 @@ void descobreBlocoMaiorMenor(hashAberto * h){
 	bloco maior = insereNoBloco(-1, 0, 0);
     bloco menor = insereNoBloco(999999, 0, 0);
 
-	int i;//Contador do primeiro for que percorre toda Hash
+	int i = 0;//Contador do primeiro for que percorre toda Hash
 	int reseta=0;//Variável para resetar e iniciar um novo bloco
+	/*while(h->tabela[i].situacao != 0){
+		i++;
+	}*/
+
 	for(i = 0; i < h->tamanho; i++){
 		if(&(h->tabela[i]) == NULL){
 			break;
 		}
 		else{
+
 			if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
 				if(reseta == 0){
 					b = insereNoBloco(0,0,0);//Se for igual a zero quer dizer que vai começar a contar o bloco novo agora, então reseta tudo
