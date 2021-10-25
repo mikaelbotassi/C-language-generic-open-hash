@@ -87,6 +87,7 @@ void imprimeHash(hashAberto *hash, void (*print)(elemento *, int))
 elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 {
 	int code = hashCode(chave, h->tamanho);
+	int fim = code;
 
 	do{
 		if (&(h->tabela[code]) == NULL)
@@ -119,7 +120,7 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 				}
 			}
 		}
-	}while (code != code-1);
+	}while (code != fim);
 	return NULL;
 }
 
@@ -127,9 +128,9 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 
 bloco insereNoBloco(int quant, int inicio, int fim){
     bloco b;
-    b.indiceInicial=inicio;
-    b.indiceFinal=fim;
-    b.quant=quant;
+    b.indiceInicial = inicio;
+    b.indiceFinal = fim;
+    b.quant = quant;
 
     return b;
 }
@@ -150,35 +151,28 @@ float pegaMediaElementosBloco(hashAberto * h){//quantidade média de elementos p
 	int blocos=0;//guarda a quantidade de blocos totais na hash
     float media;//guarda a media de elementos por bloco
     for(i = 0; i < h->tamanho; i++){
-		if(&(h->tabela[i]) == NULL){
-			break;
+		if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
+			totalNo++;
 		}
-		else{
-			if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
-				totalNo++;
-			}
-			else{//Se for uma posicão de situação 0, ou seja não tem blocos
-				blocos++;//Fecha o bloco anterior e soma mais um no número total de blocos
-				while(h->tabela[i].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
-					i++;
-				}
+		else{//Se for uma posicão de situação 0, ou seja não tem blocos
+			blocos++;//Fecha o bloco anterior e soma mais um no número total de blocos
+			while(h->tabela[i].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
+				i++;
 			}
 		}
     }
-    media= ((float)totalNo)/blocos;
+    media= ((float)h->quant)/blocos;
     return media;
 }
 
-void descobreBlocoMaiorMenor(hashAberto * h){
-	bloco b;
+void descobreBlocoMaiorMenor(hashAberto *h)
+{
+    bloco b;
 	bloco maior = insereNoBloco(-1, 0, 0);
     bloco menor = insereNoBloco(999999, 0, 0);
 
 	int i = 0;//Contador do primeiro for que percorre toda Hash
-	int reseta=0;//Variável para resetar e iniciar um novo bloco
-	/*while(h->tabela[i].situacao != 0){
-		i++;
-	}*/
+	int reseta=0;
 
 	for(i = 0; i < h->tamanho; i++){
 		if(&(h->tabela[i]) == NULL){
