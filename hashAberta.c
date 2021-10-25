@@ -87,6 +87,7 @@ void imprimeHash(hashAberto *hash, void (*print)(elemento *, int))
 elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 {
 	int code = hashCode(chave, h->tamanho);
+	int fim = code;
 
 	do{
 		if (&(h->tabela[code]) == NULL)
@@ -119,7 +120,7 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 				}
 			}
 		}
-	}while (code != code-1);
+	}while (code != fim);
 	return NULL;
 }
 
@@ -127,9 +128,9 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 
 bloco insereNoBloco(int quant, int inicio, int fim){
     bloco b;
-    b.indiceInicial=inicio;
-    b.indiceFinal=fim;
-    b.quant=quant;
+    b.indiceInicial = inicio;
+    b.indiceFinal = fim;
+    b.quant = quant;
 
     return b;
 }
@@ -171,46 +172,43 @@ float pegaMediaElementosBloco(hashAberto * h){//quantidade média de elementos p
 
 void descobreBlocoMaiorMenor(hashAberto * h){
 	bloco b;
-	bloco maior = insereNoBloco(-1, 0, 0);
+	bloco maior = insereNoBloco(0, 0, 0);
     bloco menor = insereNoBloco(999999, 0, 0);
-
 	int i = 0;//Contador do primeiro for que percorre toda Hash
 	int reseta=0;//Variável para resetar e iniciar um novo bloco
-	/*while(h->tabela[i].situacao != 0){
+	while(h->tabela[i].situacao != 0){
 		i++;
-	}*/
+	}
 
-	for(i = 0; i < h->tamanho; i++){
-		if(&(h->tabela[i]) == NULL){
-			break;
-		}
-		else{
-
-			if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
-				if(reseta == 0){
-					b = insereNoBloco(0,0,0);//Se for igual a zero quer dizer que vai começar a contar o bloco novo agora, então reseta tudo
-					b.indiceInicial = i;
-					reseta = 1;
-				}
-
-				b.quant++;
-
+	int fim = i-1;
+	
+	while(i != fim){
+		if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
+			if(reseta == 0){
+				b = insereNoBloco(0,0,0);//Se for igual a zero quer dizer que vai começar a contar o bloco novo agora, então reseta tudo
+				b.indiceInicial = i;
+				reseta = 1;
 			}
-			else{//Se for uma posicão de situação 0, ou seja não tem blocos
-				reseta = 0;
-				b.indiceFinal=i-1;//Este indice final é só por curiosidade
-				if(b.quant > maior.quant){//Se a quantidade de elementos no bloco atual for maior que o bloco com maior número de elementos
-					maior = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);//Vai inserir os valores do bloco no bloco maior
-				}
-				if(b.quant < menor.quant){//Se for menor
-					menor = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);
-				}
-				while(h->tabela[i+1].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
-					i++;//Percorre o "i" até sair do 0;
-				}
+
+			b.quant++;
+
+		}
+		else{//Se for uma posicão de situação 0, ou seja não tem blocos
+			reseta = 0;
+			b.indiceFinal=i-1;//Este indice final é só por curiosidade
+			//printf("\nQUANTIDADE: %d | %d", b.quant, maior.quant);
+			if(b.quant > maior.quant){//Se a quantidade de elementos no bloco atual for maior que o bloco com maior número de elementos
+				maior = b;//Vai inserir os valores do bloco no bloco maior
+			}
+			if(b.quant < menor.quant){//Se for menor
+				menor = b;
+			}
+			while(h->tabela[i+1].situacao == 0 && i != fim){//Vai descartar os indices com situação igual 0;
+				i = (i + 1) % h->tamanho;//Percorre o "i" até sair do 0;
 			}
 		}
-    }
+		i = (i + 1) % h->tamanho;
+	}
 	printf("\nO indice com o maior numero de elementos tem o indice inicial de: %d, e ele possui %d elementos", maior.indiceInicial, maior.quant);
     printf("\nO indice com o menor numero de elementos eh: %d, e ele possui %d elementos", menor.indiceInicial, menor.quant);
 }
