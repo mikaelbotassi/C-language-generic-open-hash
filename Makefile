@@ -28,5 +28,4 @@ listar:
 	ls $(ARQUIVOS)
 
 clean:
-	rm -f *.o
-	rm -f $(EXE)
+	rm -f $(EXE) *.o
