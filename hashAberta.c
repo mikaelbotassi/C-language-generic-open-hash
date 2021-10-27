@@ -56,7 +56,7 @@ hashAberto *expandeHash(hashAberto *hash, int (*pegaChave)(void *, char))
 	//Aloco uma nova hash com o dobro do tamanho da orginal
 	hashAberto *novaHash;
 	novaHash = (hashAberto *)malloc(sizeof(hashAberto));
-	inicializaHashAberto(novaHash, hash->tamanho * 2, hash->fatorCarga);
+	inicializaHashAberto(novaHash, hash->tamanho + 200000, hash->fatorCarga);
 
 	//Transfiro os elementos da hash antiga para a nova
 	for (i = 0; i < hash->tamanho; i++)
@@ -89,7 +89,8 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 	int code = hashCode(chave, h->tamanho);
 	int fim = code;
 
-	do{
+	do
+	{
 		if (&(h->tabela[code]) == NULL)
 		{
 			return NULL;
@@ -120,91 +121,120 @@ elemento *pesquisaNaHash(hashAberto *h, int chave, int (*cmp)(int, elemento *))
 				}
 			}
 		}
-	}while (code != fim);
+	} while (code != fim);
 	return NULL;
+}
+
+void freeHash(hashAberto *h){
+	int i;
+	for(i = 0; i < h->tamanho; i++){
+		if(h->tabela[i].situacao == 1){
+			free(h->tabela[i].valor);
+		}
+	}
+	free(h->tabela);
+	h->tabela = NULL;
+	free(h);
+	h  = NULL;
 }
 
 //###################### FUNÇÕES DE ESTATATÍSTICAS ##########################################
 
-bloco insereNoBloco(int quant, int inicio, int fim){
-    bloco b;
-    b.indiceInicial = inicio;
-    b.indiceFinal = fim;
-    b.quant = quant;
+bloco insereNoBloco(int quant, int inicio, int fim)
+{
+	bloco b;
+	b.indiceInicial = inicio;
+	b.indiceFinal = fim;
+	b.quant = quant;
 
-    return b;
+	return b;
 }
 
-void todasEstatisticas(hashAberto *h){//Printa as estatisticas
-    totalElementos(h);
-    printf("\nA media de elementos em cada indice eh: %.1f", pegaMediaElementosBloco(h));
-    descobreBlocoMaiorMenor(h);
+void todasEstatisticas(hashAberto *h)
+{ //Printa as estatisticas
+	totalElementos(h);
+	printf("\nA media de elementos em cada indice eh: %.1f", pegaMediaElementosBloco(h));
+	descobreBlocoMaiorMenor(h);
 }
 
-void totalElementos(hashAberto *h){//quantidade total de elementos
-    printf("\nO total de elementos da Hash eh: %d", h->quant);
+void totalElementos(hashAberto *h)
+{ //quantidade total de elementos
+	printf("\nO total de elementos da Hash eh: %d", h->quant);
 }
 
-float pegaMediaElementosBloco(hashAberto * h){//quantidade média de elementos por índice
-    int i;//Contador do primeiro for que percorre toda Hash
-    int totalNo=0;//guarda o total de nós que tem situação igual a 1(possui algum aluno) ou -1(Possuia aluno, porém foi retirado)
-	int blocos=0;//guarda a quantidade de blocos totais na hash
-    float media;//guarda a media de elementos por bloco
-    for(i = 0; i < h->tamanho; i++){
-		if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
+float pegaMediaElementosBloco(hashAberto *h)
+{					 //quantidade média de elementos por índice
+	int i;			 //Contador do primeiro for que percorre toda Hash
+	int totalNo = 0; //guarda o total de nós que tem situação igual a 1(possui algum aluno) ou -1(Possuia aluno, porém foi retirado)
+	int blocos = 0;	 //guarda a quantidade de blocos totais na hash
+	float media;	 //guarda a media de elementos por bloco
+	for (i = 0; i < h->tamanho; i++)
+	{
+		if (h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1)
+		{ //Se ainda estiver dentro de um bloco
 			totalNo++;
 		}
-		else{//Se for uma posicão de situação 0, ou seja não tem blocos
-			blocos++;//Fecha o bloco anterior e soma mais um no número total de blocos
-			while(h->tabela[i].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
+		else
+		{			  //Se for uma posicão de situação 0, ou seja não tem blocos
+			blocos++; //Fecha o bloco anterior e soma mais um no número total de blocos
+			while (h->tabela[i].situacao == 0 && i < h->tamanho)
+			{ //Vai descartar os indices com situação igual 0;
 				i++;
 			}
 		}
-    }
-    media= ((float)h->quant)/blocos;
-    return media;
+	}
+	media = ((float)h->quant) / blocos;
+	return media;
 }
 
 void descobreBlocoMaiorMenor(hashAberto *h)
 {
-    bloco b;
+	bloco b;
 	bloco maior = insereNoBloco(-1, 0, 0);
-    bloco menor = insereNoBloco(999999, 0, 0);
+	bloco menor = insereNoBloco(99999, 0, 0);
 
-	int i = 0;//Contador do primeiro for que percorre toda Hash
-	int reseta=0;
+	int i = 0; //Contador do primeiro for que percorre toda Hash
+	int reseta = 0;
 
-	for(i = 0; i < h->tamanho; i++){
-		if(&(h->tabela[i]) == NULL){
+	for (i = 0; i < h->tamanho; i++)
+	{
+		if (&(h->tabela[i]) == NULL)
+		{
 			break;
 		}
-		else{
+		else
+		{
 
-			if(h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1){//Se ainda estiver dentro de um bloco
-				if(reseta == 0){
-					b = insereNoBloco(0,0,0);//Se for igual a zero quer dizer que vai começar a contar o bloco novo agora, então reseta tudo
+			if (h->tabela[i].situacao == 1 || h->tabela[i].situacao == -1)
+			{ //Se ainda estiver dentro de um bloco
+				if (reseta == 0)
+				{
+					b = insereNoBloco(0, 0, 0); //Se for igual a zero quer dizer que vai começar a contar o bloco novo agora, então reseta tudo
 					b.indiceInicial = i;
 					reseta = 1;
 				}
 
 				b.quant++;
-
 			}
-			else{//Se for uma posicão de situação 0, ou seja não tem blocos
+			else
+			{ //Se for uma posicão de situação 0, ou seja não tem blocos
 				reseta = 0;
-				b.indiceFinal=i-1;//Este indice final é só por curiosidade
-				if(b.quant > maior.quant){//Se a quantidade de elementos no bloco atual for maior que o bloco com maior número de elementos
-					maior = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);//Vai inserir os valores do bloco no bloco maior
+				b.indiceFinal = i - 1; //Este indice final é só por curiosidade
+				if (b.quant > maior.quant)
+				{	//Se a quantidade de elementos no bloco atual for maior que o bloco com maior número de elementos
+					maior = b; //Vai inserir os valores do bloco no bloco maior
 				}
-				if(b.quant < menor.quant){//Se for menor
-					menor = insereNoBloco(b.quant, b.indiceInicial, b.indiceFinal);
+				if (b.quant < menor.quant && b.quant>0)
+				{ //Se for menor
+					menor = b;
 				}
-				while(h->tabela[i+1].situacao == 0 && i < h->tamanho){//Vai descartar os indices com situação igual 0;
-					i++;//Percorre o "i" até sair do 0;
+				while (h->tabela[i + 1].situacao == 0 && i < h->tamanho)
+				{//Vai descartar os indices com situação igual 0;
+					i++; //Percorre o "i" até sair do 0;
 				}
 			}
 		}
-    }
+	}
 	printf("\nO indice com o maior numero de elementos tem o indice inicial de: %d, e ele possui %d elementos", maior.indiceInicial, maior.quant);
-    printf("\nO indice com o menor numero de elementos eh: %d, e ele possui %d elementos", menor.indiceInicial, menor.quant);
+	printf("\nO indice com o menor numero de elementos eh: %d, e ele possui %d elementos", menor.indiceInicial, menor.quant);
 }

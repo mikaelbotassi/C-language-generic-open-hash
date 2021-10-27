@@ -14,4 +14,5 @@ int main() {
 	h=readHashAlunoFromFile(h);
 	menu(h);
 	writeHashOnFile(h);
+	freeHash(h);
 }

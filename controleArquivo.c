@@ -6,7 +6,7 @@
 #define ERRO_ABRIR_ARQUIVO "\n\tERRO: Erro na abertura do arquivo!\n"
 
 #define MENSSAGE_LENDO_ARQUIVO "\n\tAVISO: Lendo arquivo, por favor aguarde...\n"
-#define DIRETORIO_ARQUIVO_ENTRADA "entrada/entrada.txt"
+#define DIRETORIO_ARQUIVO_ENTRADA "entrada/forcado700000.txt"
 #define DIRETORIO_ARQUIVO_SAIDA "./saida/"
 #define LINE_MAX_LENGTH 255
 #define FILE_NAME_MAX_LENGTH 31

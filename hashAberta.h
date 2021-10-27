@@ -49,6 +49,8 @@ float pegaMediaElementosBloco(hashAberto * h);
 
 void descobreBlocoMaiorMenor(hashAberto * h);
 
+void freeHash(hashAberto *h);
+
 // #####################################################################
 
 #endif
